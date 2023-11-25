@@ -4,22 +4,22 @@ import java.math.BigDecimal;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component // spring framework toma el control del objeto y delega
 public class Estudiante {
 	
-	 private String nombre ;
-	 private String apellido ;
-	 private BigDecimal salario;
-	 private String cedula ;
-	 
-	 @Override
-		public String toString() {
-			return "Estudiante [nombre=" + nombre + ", apellido=" + apellido + ", salario=" + salario + ", cedula=" + cedula
-					+ "]";
-		}
-	 
-	 
-	 //GET Y SET
+	private String cedula;
+	private String nombre;
+	private String apellido;
+	private BigDecimal salario;
+	
+	
+	//set y get 
+	public String getCedula() {
+		return cedula;
+	}
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -38,13 +38,13 @@ public class Estudiante {
 	public void setSalario(BigDecimal salario) {
 		this.salario = salario;
 	}
-	public String getCedula() {
-		return cedula;
+	@Override
+	public String toString() {
+		return "Estudiante [cedula=" + cedula + ", nombre=" + nombre + ", apellido=" + apellido + ", salario=" + salario
+				+ "]";
 	}
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
-	}
-	 
-	 
+	
 
+	
+	
 }
