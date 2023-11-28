@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class Transferencia {
 	
 	private String numero;
-	private  LocalDateTime fecha;
+	private LocalDateTime fecha;
 	private BigDecimal monto;
 	private CuentaBancaria cuentaOrigen;
 	private CuentaBancaria cuentaDestino;

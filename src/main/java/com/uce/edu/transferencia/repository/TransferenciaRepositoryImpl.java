@@ -46,4 +46,17 @@ public class TransferenciaRepositoryImpl implements ITransferenciaRepository {
 		
 	}
 
+	@Override
+	public List<Transferencia> listaTransferencias() {
+		// TODO Auto-generated method stub
+		List<Transferencia> lista =base;
+		int indice=0;
+		for(Transferencia trans: lista) {
+			indice++;
+			System.out.println(indice+":"+trans);
+		}
+		
+		return lista ;
+	}
+
 }

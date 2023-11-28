@@ -2,6 +2,10 @@ package com.uce.edu.transferencia.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,7 @@ import com.uce.edu.transferencia.repository.modelo.Transferencia;
 
 @Service
 public class TransferenciaServiceImpl implements ITransferenciaService{
+	private static List<Integer> numeroTransaccion =new ArrayList<>();
 
 	@Autowired 
 	private ITransferenciaRepository iTransferenciaRepository;
@@ -80,8 +85,17 @@ public class TransferenciaServiceImpl implements ITransferenciaService{
 			transferencia.setMonto(monto);
 			transferencia.setNumero("123123123");
 			
+			
+			Random random = new Random();
+			Integer numeroTransferencia=random.nextInt(100) + 1;;
 			this.iTransferenciaRepository.insertar(transferencia);
-			System.out.println("Transferencia realizada con exito!!");
+			while (numeroTransaccion.contains(numeroTransferencia)) {
+			    ++numeroTransferencia;
+			}
+			numeroTransaccion.add(numeroTransferencia);
+			System.out.println("Transferencia realizada con éxito!!, numero de transferencia: " + numeroTransferencia);
+
+			
 			
 			
 			
@@ -89,6 +103,13 @@ public class TransferenciaServiceImpl implements ITransferenciaService{
 			 System.out.println("saldo no disponible");
 		 }
 		 
+	}
+
+	@Override
+	public List<Transferencia> listaTransferencias() {
+		// TODO Auto-generated method stub
+		
+		return this.iTransferenciaRepository.listaTransferencias();
 	}
 
 }
