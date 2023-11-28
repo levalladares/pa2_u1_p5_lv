@@ -86,6 +86,8 @@ public class TransferenciaServiceImpl implements ITransferenciaService{
 			transferencia.setNumero("123123123");
 			
 			
+			
+			//SE CODIFICO PARA QUE GENERE UN NUMERO DIFERENTE DE TRANSACCION
 			Random random = new Random();
 			Integer numeroTransferencia=random.nextInt(100) + 1;;
 			this.iTransferenciaRepository.insertar(transferencia);
