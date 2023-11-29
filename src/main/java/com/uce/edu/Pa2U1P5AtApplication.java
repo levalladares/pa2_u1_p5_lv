@@ -21,10 +21,25 @@ import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @SpringBootApplication
 public class Pa2U1P5AtApplication implements CommandLineRunner{
-	
 
 	@Autowired
 	private ITransferenciaService iTransferenciaService;
+
+//  Inyeccion de dependencias por constructor	
+//	private ITransferenciaService iTransferenciaService;
+//	@Autowired   
+//	public Pa2U1P5AtApplication(ITransferenciaService iTransService) {
+//		this.iTransferenciaService=iTransService;
+//	}
+	
+	
+//  Inyeccion de dependencias por metodo
+//	@Autowired
+//	public void setiTransferenciaService(ITransferenciaService iTransferenciaService) {
+//		this.iTransferenciaService = iTransferenciaService;
+//	}
+//	
+	
 	
 	@Autowired
 	private ICuentaBancariaService bancariaService;
@@ -58,11 +73,15 @@ public class Pa2U1P5AtApplication implements CommandLineRunner{
 		CuentaBancaria ctaDestino1 = this.bancariaService.buscar("5678");
 		System.out.println(ctaDestino1);
 		
-		System.out.println("AQUI SE MUESTRA EL NUMERO DE TRANSFERENCIA");
-		System.out.println("TRANSFERENCIA 1");
+
 		this.iTransferenciaService.realizar("1234", "5678", new BigDecimal(50));
-		System.out.println("TRANSFERENCIA 2");
 		this.iTransferenciaService.realizar("5678", "1234", new BigDecimal(10));
+
+		// construir un reporte del estado de cuenta de todas las transferencias 
+		this.iTransferenciaService.listaTransferencias();
+
+		// depositos
+		System.out.println(this.bancariaService.depositar("1234",new BigDecimal(20)));
 		
 	}
 
