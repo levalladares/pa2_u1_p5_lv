@@ -1,48 +1,30 @@
 package com.uce.edu;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.uce.edu.ioc.di.Estudiante;
-import com.uce.edu.repository.modelo.Materia;
-import com.uce.edu.service.IMateriaService;
-import com.uce.edu.transferencia.repository.modelo.CuentaBancaria;
-import com.uce.edu.transferencia.repository.modelo.Transferencia;
-import com.uce.edu.transferencia.service.ICuentaBancariaService;
-import com.uce.edu.transferencia.service.ITransferenciaService;
-
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
+import com.uce.edu.inventario.repository.modelo.Bodega;
+import com.uce.edu.inventario.repository.modelo.Inventario;
+import com.uce.edu.inventario.repository.modelo.Producto;
+import com.uce.edu.inventario.service.IBodegService;
+import com.uce.edu.inventario.service.IInventarioService;
+import com.uce.edu.inventario.service.IProductoService;
 
 @SpringBootApplication
 public class Pa2U1P5AtApplication implements CommandLineRunner{
 
 	@Autowired
-	private ITransferenciaService iTransferenciaService;
-
-//  Inyeccion de dependencias por constructor	
-//	private ITransferenciaService iTransferenciaService;
-//	@Autowired   
-//	public Pa2U1P5AtApplication(ITransferenciaService iTransService) {
-//		this.iTransferenciaService=iTransService;
-//	}
-	
-	
-//  Inyeccion de dependencias por metodo
-//	@Autowired
-//	public void setiTransferenciaService(ITransferenciaService iTransferenciaService) {
-//		this.iTransferenciaService = iTransferenciaService;
-//	}
-//	
-	
+	private IProductoService iProductoService;
 	
 	@Autowired
-	private ICuentaBancariaService bancariaService;
+	private IBodegService bodegService ;
+	
+	@Autowired
+	private IInventarioService iInventarioService ;
 	
 	public static void main(String[] args)  {
 		SpringApplication.run(Pa2U1P5AtApplication.class, args);
@@ -50,38 +32,36 @@ public class Pa2U1P5AtApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		List<Transferencia> lista = new ArrayList<>();
-	
-		//1. crear las cuentas
-		CuentaBancaria ctaOrigen = new CuentaBancaria();
-		ctaOrigen.setCedulaPropietario("171717");
-		ctaOrigen.setNumero("1234");
-		ctaOrigen.setSaldo(new BigDecimal(100));
-		this.bancariaService.guardar(ctaOrigen);
+		Producto p1 = new Producto();
+		p1.setCodigoBarras("12345");
+		p1.setNombre("HP 15 laptop");
+		p1.setStock(0);
+		this.iProductoService.guardar(p1);
 		
-		CuentaBancaria ctaDestino = new CuentaBancaria();
-		ctaDestino.setCedulaPropietario("17144717");
-		ctaDestino.setNumero("5678");
-		ctaDestino.setSaldo(new BigDecimal(200));
-		this.bancariaService.guardar(ctaDestino);
+		Producto p2 = new Producto();
+		p2.setCodigoBarras("144445");
+		p2.setNombre("Dell 15 laptop");
+		p2.setStock(0);
+		this.iProductoService.guardar(p2);
 		
-		this.iTransferenciaService.realizar("1234", "5678", new BigDecimal(20));
+		Bodega bodega1 = new Bodega();
+		bodega1.setCapacidad(100);
+		bodega1.setCodigo("12345678");
+		bodega1.setNombre("Bodega la gasca");
+		bodega1.setDireccion("La gasca y america");
 		
-		CuentaBancaria ctaOrigen1 = this.bancariaService.buscar("1234");
-		System.out.println(ctaOrigen1);
+		this.iInventarioService.registrar("12345678", "12345", 50);
+		System.out.println(p1);
 		
-		CuentaBancaria ctaDestino1 = this.bancariaService.buscar("5678");
-		System.out.println(ctaDestino1);
+		this.iInventarioService.registrar("12345678", "144445", 100);
+		System.out.println(p2);
 		
-
-		this.iTransferenciaService.realizar("1234", "5678", new BigDecimal(50));
-		this.iTransferenciaService.realizar("5678", "1234", new BigDecimal(10));
-
-		// construir un reporte del estado de cuenta de todas las transferencias 
-		this.iTransferenciaService.listaTransferencias();
-
-		// depositos
-		System.out.println(this.bancariaService.depositar("1234",new BigDecimal(20)));
+		this.iInventarioService.registrar("12345678", "12345", 20);
+		System.out.println(p1);
+		
+		
+		
+		
 		
 	}
 
